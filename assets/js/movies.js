@@ -2,7 +2,7 @@ const moviesContenedor = document.getElementById("divMovies")
 
 function crearCard (movie){
     return`
-    <article class="border-2 border-dashed border-gray-400 rounded-2xl m-4 p-3 flex flex-col">
+    <article id="scrollsnapid" class="border-2 border-dashed border-gray-400 rounded-2xl p-4 m-2 flex flex-col">
         <img class="mb-3" src="${movie.image}" alt="${movie.title}"></img>
         <h3 class="mb-1 font-bold text-2xl ">${movie.title}</h3>
         <h4 class="mb-3" >${movie.tagline}</h4>
@@ -20,4 +20,5 @@ function introducirCard (movies, moviesContenedor){
 }
 
 introducirCard(movies, moviesContenedor)
-
+const scrollSnap = document.getElementbyID("scrollsnapid")
+scrollSnap.addEventListener("scroll", () => {}) // preguntar sobre como agregar un scroll snap
