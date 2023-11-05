@@ -4,12 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
+    <title>Movies - Federico Val</title>
 </head>
 <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
+    <header class="flex flex-col justify-center items-center gap-3 pb-2 border-2 border-gray-400 bg-gray-700 text-white pt-2">
+        <div class="flex justify-evenly items-center w-full">
+            <picture class="w-16">
+                <img class="object-contain w-20 border-4 border-purple-500 rounded-full"  src="./assets/img/profile.jfif" alt="Logo">
+            </picture>
+            <h1>MOVIESTACK</h1>
+        </div>
+        <nav>
+            <ul class="flex w-full gap-12">
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">MOVIES</a></li>
+                <li><a href="#">FAVS</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="flex grow min-h-screen flex-col bg-gray-900 text-white gap-4">
+        <picture id="banner" class="m-1 object-contain">
+            <img class="w-full" src="./assets/img/banner.jpg" alt="banner">
+        </picture>
+        <div class="mt-4">
+            <p class="m-2 text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur, corporis libero placeat quidem esse doloribus necessitatibus magni reiciendis eaque in mollitia culpa quisquam expedita iure maxime! Quae odio numquam ad deserunt cumque officia eaque ipsum porro nemo sint. Cum, odit?</p>
+            <p class="m-2 text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, facilis, temporibus animi quo vitae officiis repellat, repellendus fugiat facere ad itaque mollitia voluptates? Itaque incidunt facilis, minima, delectus ab tenetur soluta repudiandae sed earum illo assumenda obcaecati unde cupiditate optio laborum ut dolorum consequuntur voluptatibus inventore dicta eaque animi? Quod!</p>
+            <div id="callToAction">
+
+            </div>
+        </div>
+    </main>
+    <footer class="flex justify-center items-center border-2 border-gray-400 bg-gray-700 text-white">
+        <p>Federico Val - Cohort N52</p>
+    </footer>
     <script src="./assets/js/tailwind.config.js"></script>
     <script src="./assets/js/movies.js"></script>
     <script src="./assets/js/data.js"></script>
