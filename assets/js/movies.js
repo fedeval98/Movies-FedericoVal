@@ -20,5 +20,5 @@ function introducirCard (movies, moviesContenedor){
 }
 
 introducirCard(movies, moviesContenedor)
-const scrollSnap = document.getElementbyID("scrollsnapid")
-scrollSnap.addEventListener("scroll", () => {}) // preguntar sobre como agregar un scroll snap
+// const scrollSnap = document.getElementbyID("scrollsnapid")
+// scrollSnap.addEventListener("scroll", () => {}) // preguntar sobre como agregar un scroll snap
