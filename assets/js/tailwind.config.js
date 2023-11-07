@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {        
-    theme:{
-        extend:{
-            colors:{ 
-                clifford: '#da373d',
-            }
-        }
-    }
-}
+export const theme = {
+    extend: {
+        colors: {
+            clifford: "#da373d",
+        },
+    
+    },
+};
+export const plugins = [];
