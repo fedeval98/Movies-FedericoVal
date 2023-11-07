@@ -10,19 +10,30 @@ function crearCard (movie){
     h4.textContent = movie.tagline
     const p = document.createElement("p")
     p.textContent = movie.overview
+    const a = document.createElement("a")
+    a.textContent = "Ver mas"
+    
+    a.addEventListener("click",() => {
+        p.style.display ="block"
+        a.style.display = "none"
+    })
 
     article.classList.add("border-2", "border-dashed", "border-gray-400", "rounded-2xl", "p-4", "m-2", "flex", "flex-col", "md:w-1/3", "md:flex-wrap","lg:w-auto","lg:ml-auto", "lg:mr-auto")
     img.classList.add("mb-3")
     h3.classList.add("mb-1", "font-bold", "text-2xl")
-    h4.classList.add("mb-3")
-    p.classList.add("mb-3","line-clamp")
+    h4.classList.add("mb-3","italic")
+    p.classList.add("mb-3","line-clamp-5","md:line-clamp-3","lg:line-clamp-2")
+    a.classList.add ("text-blue-500", "cursor-pointer", "self-bottom")
 
     article.appendChild(img)
     article.appendChild(h3)
     article.appendChild(h4)
     article.appendChild(p)
+    article.appendChild(a)
+
     return article
 }
+
 
 function introducirCard(movies, moviesContenedor) {
     for (const movie of movies) {
