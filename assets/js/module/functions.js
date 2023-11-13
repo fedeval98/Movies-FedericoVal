@@ -1,8 +1,6 @@
-//Importar Movies de data
-import {movies} from '../data.js'
+
 //Creacion de elementos
 // img, h3, h4, p y a
-
 function crearImg (movie){
   const img = document.createElement("img")
   img.src = movie.image
@@ -47,22 +45,20 @@ function darClaseElementosCard(article, img, h3, h4, p, a){
 }
 
 //Incrustar los elementos en el Article utilizando el parametro movie (tomado de introducirCard)
-function crearElementosDelCard(movie, vermas=true){
+export function crearElementosDelCard(movie){
   const article = document.createElement("article")
   const img = crearImg(movie)
   const h3 = crearH3(movie)
   const h4 = crearH4(movie)
   const p = crearP(movie)
-  const a = vermas ? crearA() : null
+  const a = crearA()
 
   article.appendChild(img)
   article.appendChild(h3)
   article.appendChild(h4)
   article.appendChild(p)
 
-  if(a){
   article.appendChild(a)
-  }
 
   darClaseElementosCard(article, img, h3, h4, p, a)
   return article
@@ -77,13 +73,108 @@ function eventoVerMas(a, p){
 }
 
 // Introducir cards al contenedor
-export function introducirCard(array, contenedor, contenedorDetails) {
-  for (const movie of array) {
-      const cardContenedor = crearElementosDelCard(movie)
-      contenedor.appendChild(cardContenedor)
-      contenedorDetails.appendChild(detailsContenedor)
+export function introducirCard(moviesArray, contenedor, fn) {
+  
+  for (const movie of moviesArray) {
+    const cardContenedor = fn(movie)
+    contenedor.appendChild(cardContenedor)
   }
 }
+
 //Reutilizar for para Details
 
-// Funciones de la pagina Details
+//Crear option del select utilizando parametro genre
+function crearOption (genre){
+  const option = document.createElement("option")
+  option.value = genre
+  option.textContent = genre
+  return option
+}
+//Bucle para iterar cada genero (genreList) y darle su (contenedor) option
+export function crearOptions(genresList, contenedor) {
+  for (const genre of genresList) {
+      const option = crearOption(genre)
+      contenedor.appendChild(option)
+  }
+}
+
+
+// Inicio de busqueda por input
+export function filtrarPorTituloCaseInsensitive(arrayMovie, titulo) {
+  const filtroTitulo = arrayMovie.filter(movie =>
+    movie.title.toLowerCase().includes(titulo.toLowerCase())
+  );
+  return filtroTitulo;
+}
+
+
+//.toLowerCase() lo que hace es transformar a minusculas el texto 
+// Al aplicarlo en movie.title hacemos que el titulo de la pelicula 
+// Se transforme a minusculas
+
+// Función para limpiar el contenido de un contenedor
+export function limpiarContenedor(contenedor) {
+  contenedor.innerHTML = ""
+}
+
+// // Función para introducir películas en el contenedor
+export function introducirPeliculasEnContenedor(moviesFiltradas, contenedor) {
+  introducirCard(moviesFiltradas, contenedor, crearElementosDelCard)
+}
+
+// Desestructurando el array movies para obtener los generos
+// Luego armar un nuevo array
+// Luego eliminar repetidos
+export function destructureMovies (arrayMovie){
+  const genresRepeat = arrayMovie.map (genre => genre.genres)
+  const genresDestructured =[]
+  for(let i = 0; i < genresRepeat.length; i++){
+    genresDestructured.push(...genresRepeat[i])
+  }
+return genresDestructured
+}
+
+// Funcion para filtrar la lista de generos y que no se repitan los generos
+export function genresList(genres){
+  return [...new Set(genres)]
+}
+// Funcion para filtrar peliculas por genero
+function filterMoviesByGenre (moviesArray, genre){
+  return moviesArray.filter(movie => movie.genres.includes(genre))
+}
+// Funcion para controlar que se muestre las peliculas
+// Segun el genero seleccionado
+export function manejarCambioSelect(moviesArray, option, input, contenedor) {
+  const selectGenre = option.value
+  const selectNombre = input.value.trim().toLowerCase()
+  const filtroPorGenero = filterMoviesByGenre(moviesArray, selectGenre)
+
+  // Filtrar por género si se selecciona un género
+  const resultadoPorGenero = selectGenre !== "todos"
+    ? filterMoviesByGenre(moviesArray, selectGenre)
+    : [...moviesArray]
+
+  // Filtrar por nombre si hay una búsqueda
+  const resultadoPorNombre = selectNombre !== ""
+    ? filtrarPorTituloCaseInsensitive(moviesArray, selectNombre)
+    : [...moviesArray]
+
+  // Obtener la intersección de ambos resultados
+  const resultadoFiltrado = resultadoPorGenero.filter(movie =>
+    resultadoPorNombre.includes(movie)
+  )
+
+  limpiarContenedor(contenedor)
+  if (resultadoFiltrado.length > 0) {
+    introducirPeliculasEnContenedor(resultadoFiltrado, contenedor)
+  } else {
+    // Mostrar mensaje cuando no hay resultados
+    const mensajeNoResultados = document.createElement("p")
+    mensajeNoResultados.textContent = "No se encontraron resultados"
+    contenedor.appendChild(mensajeNoResultados)
+  }
+
+  searchInput.addEventListener('keyup', () => {
+    manejarCambioSelect(moviesArray, option, input, contenedor);
+  })
+}
