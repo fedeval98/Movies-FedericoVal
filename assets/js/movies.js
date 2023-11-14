@@ -1,7 +1,6 @@
 //Captura de elementos del HTML
 const selectGenres = document.getElementById("selectgenres")
 const moviesContenedor = document.getElementById("divMovies")
-<<<<<<< HEAD
 function crearCard (movie){
     const article = document.createElement("article")
     const img = document.createElement("img")
@@ -44,7 +43,6 @@ function introducirCard(movies, moviesContenedor) {
         moviesContenedor.appendChild(cardContenedor);
     }
 }
-=======
 const verMas = "Ver más"
 const detailsContainer = document.getElementById("movieDetails")
 const searchInput = document.getElementById("searchInput")
@@ -85,5 +83,4 @@ buttonClear.addEventListener('click',()=>{
   limpiarContenedor(moviesContenedor)
   introducirCard(movies, moviesContenedor, crearElementosDelCard)
 })
->>>>>>> workspace
 
