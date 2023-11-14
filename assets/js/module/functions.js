@@ -174,7 +174,7 @@ export function manejarCambioSelect(moviesArray, option, input, contenedor) {
   }
 
   searchInput.addEventListener('keyup', () => {
-    manejarCambioSelect(moviesArray, option, input, contenedor);
+    manejarCambioSelect(moviesArray, option, input, contenedor)
   })
 }
 
