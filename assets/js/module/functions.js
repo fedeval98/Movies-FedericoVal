@@ -26,11 +26,14 @@ function crearP(movie){
   return p
 }
 
-function crearA(){
-  const a = document.createElement("a")
-  a.textContent = "Ver más"
-  return a
+function crearA(movie){
+    const a = document.createElement("a")
+    a.textContent = "Ver más"
+    a.href = `./details.html?id=${movie.id}`
+    a.id = "anchor"
+    return a
 }
+
 // Dar clase a los elementos creados
 function darClaseElementosCard(article, img, h3, h4, p, a){
   article.classList.add("bg-gray-900","border-2", "border-dashed", "border-gray-400", "rounded-2xl", "p-4", "m-2", "flex", "flex-col", "md:w-1/3", "md:flex-wrap","lg:w-auto","lg:ml-auto", "lg:mr-auto","justify-between")
@@ -38,10 +41,7 @@ function darClaseElementosCard(article, img, h3, h4, p, a){
   h3.classList.add("mb-1", "font-bold", "text-2xl")
   h4.classList.add("mb-3","italic")
   p.classList.add("mb-3","line-clamp-5","md:line-clamp-3","lg:line-clamp-2")
-
-  if(a){
   a.classList.add("text-blue-400", "cursor-pointer", "border","w-1/3","text-center","bg-black","rounded-xl","self-end")
-}
 }
 
 //Incrustar los elementos en el Article utilizando el parametro movie (tomado de introducirCard)
@@ -51,13 +51,12 @@ export function crearElementosDelCard(movie){
   const h3 = crearH3(movie)
   const h4 = crearH4(movie)
   const p = crearP(movie)
-  const a = crearA()
+  const a = crearA(movie)
 
   article.appendChild(img)
   article.appendChild(h3)
   article.appendChild(h4)
   article.appendChild(p)
-
   article.appendChild(a)
 
   darClaseElementosCard(article, img, h3, h4, p, a)
@@ -74,8 +73,8 @@ function eventoVerMas(a, p){
 
 // Introducir cards al contenedor
 export function introducirCard(moviesArray, contenedor, fn) {
-  
-  for (const movie of moviesArray) {
+  const verificacion = Array.isArray(moviesArray) ? moviesArray : [moviesArray]
+  for (const movie of verificacion) {
     const cardContenedor = fn(movie)
     contenedor.appendChild(cardContenedor)
   }
@@ -150,7 +149,7 @@ export function manejarCambioSelect(moviesArray, option, input, contenedor) {
   const filtroPorGenero = filterMoviesByGenre(moviesArray, selectGenre)
 
   // Filtrar por género si se selecciona un género
-  const resultadoPorGenero = selectGenre !== "todos"
+  const resultadoPorGenero = selectGenre !== ""
     ? filterMoviesByGenre(moviesArray, selectGenre)
     : [...moviesArray]
 
@@ -177,4 +176,73 @@ export function manejarCambioSelect(moviesArray, option, input, contenedor) {
   searchInput.addEventListener('keyup', () => {
     manejarCambioSelect(moviesArray, option, input, contenedor);
   })
+}
+
+//Crear pagina de Details
+function generosDetails(movie){
+  const genresDetails = document.createElement("p")
+  genresDetails.textContent = movie.genres
+  return genresDetails
+}
+
+export function crearElementosDetails (movie){
+  const articleDetails = document.createElement("article")
+  const picture = document.createElement ("picture")
+  const div = document.createElement("div")
+  const img = crearImg(movie)
+  const h3 = crearH3(movie)
+  const h4 = crearH4(movie)
+  const p = crearP(movie)
+  const pD = generosDetails(movie) 
+  picture.appendChild(img)
+  articleDetails.appendChild(picture)
+  div.appendChild(h3)
+  div.appendChild(h4)
+  div.appendChild(pD)
+  div.appendChild(p)
+  articleDetails.appendChild(div)
+  
+  darClaseElementosDetails(articleDetails, picture, div, img, h3, h4, p, pD)
+
+  return articleDetails
+}
+
+function darClaseElementosDetails(articleDetails, picture, div, img, h3, h4, p, pD){
+  articleDetails.classList.add("flex", "flex-col","text-white","gap-2","m-2","md:flex-row","mt-10","lg:text-2xl")
+  div.classList.add("flex", "flex-col","gap-4","md:w-1/3","lg:justify-around")
+  picture.classList.add("md:w-2/3","lg:grow")
+  img.classList.add("mb-3","object-cover","lg:w-full")
+  h3.classList.add("mb-1", "font-bold", "text-2xl","uppercase","lg:text-4xl")
+  h4.classList.add("mb-3")
+  p.classList.add("mb-3")
+  pD.classList.add("italic")
+}
+
+//Creacion de la tabla
+export function crearTablaDetails(moviesArray, propiedades, tablaId) {
+    const row = crearFila(moviesArray, propiedades)
+    tablaId.appendChild(row)
+}
+
+// Función para crear una fila de la tabla y darle clases
+function crearFila(movie, propiedades) {
+  const row = document.createElement("tr")
+
+  for (const propiedad of propiedades) {
+    const cell = document.createElement("td")
+    const strong = document.createElement("strong")
+    row.classList.add("flex","flex-col","gap-4","lg:text-2xl")
+    cell.classList.add("border")
+    strong.textContent = propiedad.charAt(0).toUpperCase() + propiedad.slice(1).replace(/_/g,' ')
+
+  
+    const text = document.createTextNode(`: ${movie[propiedad]}`)
+
+    // Agregar los nodos al elemento td
+    cell.appendChild(strong)
+    cell.appendChild(text)
+    row.appendChild(cell)
+  }
+
+  return row
 }
